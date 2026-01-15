@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektronica Reviews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px 0;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: #f1c40f;
+            margin-right: 10px;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+        
+        .category {
+            display: inline-block;
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+        }
+        
+        .view-details {
+            display: inline-block;
+            margin-top: 15px;
+            color: #3498db;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .view-details i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .view-details i {
+            transform: translateX(5px);
+        }
+        
+        /* Responsive aanpassingen */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
+        }
+        
+        /* Product detail pagina styling */
+        .back-button {
+            display: inline-block;
+            margin: 30px 0;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+        }
+        
+        .product-detail-image {
+            flex: 1;
+            min-width: 300px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        .product-detail-info {
+            flex: 2;
+            padding: 30px;
+            min-width: 300px;
+        }
+        
+        .product-detail-name {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .product-detail-price {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 25px 0;
+            color: #555;
+        }
+        
+        .specifications {
+            margin: 25px 0;
+        }
+        
+        .specifications h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .spec-list {
+            list-style-type: none;
+        }
+        
+        .spec-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .review-summary {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .review-summary .stars {
+            font-size: 1.5rem;
+        }
+        
+        .review-summary .rating-value {
+            font-size: 1.2rem;
+            margin-left: 15px;
+        }
+        
+        .review-count {
+            color: #7f8c8d;
+            margin-left: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hoofdpagina -->
+    <div id="home-page">
+        <header>
+            <div class="container">
+                <h1><i class="fas fa-laptop"></i> Elektronica Reviews</h1>
+                <p class="subtitle">Betrouwbare beoordelingen van de nieuwste elektronica. Klik op een product voor gedetailleerde informatie.</p>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="instructions">
+                <h3>Hoe producten toevoegen/wijzigen:</h3>
+                <ul>
+                    <li>Voeg een nieuw product toe door een object toe te voegen aan de <strong>products</strong> array in de JavaScript code</li>
+                    <li>Elk product moet hebben: id, name, price, image, rating, category, description en specifications</li>
+                    <li>Producten worden automatisch weergegeven op de homepage</li>
+                    <li>Klik op een product om naar de detailpagina te gaan</li>
+                </ul>
+            </div>
+            
+            <div class="products-grid" id="products-container">
+                <!-- Producten worden hier dynamisch geladen -->
+            </div>
+        </div>
+        
+        <footer>
+            <div class="container">
+                <p>&copy; 2023 Elektronica Reviews. Alle rechten voorbehouden.</p>
+                <p>Deze website is een voorbeeld voor het eenvoudig beheren van productreviews.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Detailpagina (verborgen standaard) -->
+    <div id="detail-page" class="hidden">
+        <div class="container">
+            <a href="#" class="back-button" id="back-button">
+                <i class="fas fa-arrow-left"></i> Terug naar overzicht
+            </a>
+            
+            <div id="product-detail-container">
+                <!-- Productdetails worden hier geladen -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Producten database - hier kun je eenvoudig producten toevoegen/wijzigen
+        const products = [
+            {
+                id: 1,
+                name: "Sony WH-1000XM4 Noise Cancelling Hoofdtelefoon",
+                price: 279.99,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.5,
+                category: "Audio",
+                description: "De Sony WH-1000XM4 noise-cancelling hoofdtelefoon biedt ongelooflijke geluidskwaliteit en geavanceerde ruisonderdrukking voor een geïmmerse luisterervaring. Perfect voor reizen, werken of gewoon ontspannen.",
+                specifications: [
+                    "Batterijduur: tot 30 uur",
+                    "Bluetooth 5.0",
+                    "Opvouwbaar ontwerp",
+                    "Spraakassistent ondersteuning",
+                    "Aanraakbediening"
+                ]
+            },
+            {
+                id: 2,
+                name: "Apple iPhone 14 Pro",
+                price: 1099.00,
+                image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+                rating: 4.8,
+                category: "Smartphone",
+                description: "De iPhone 14 Pro beschikt over een revolutionaire Dynamic Island, een krachtige A16 Bionic-chip en een professionele camera-systeem. Een echte game-changer in de smartphone-industrie.",
+                specifications: [
+                    "6,1-inch Super Retina XDR display",
+                    "A16 Bionic chip",
+                    "48MP Hoofdcamera",
+                    "Dynamic Island",
+                    "iOS 16"
+                ]
+            },
+            {
+                id: 3,
+                name: "Samsung QLED 4K Smart TV 55 inch",
+                price: 899.99,
+                image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.3,
+                category: "TV",
+                description: "De Samsung QLED TV biedt levendige kleuren en ongelooflijke helderheid dankzij Quantum Dot-technologie. Met slimme functies en een prachtig design is dit het perfecte centrum voor je home entertainment.",
+                specifications: [
+                    "55 inch QLED 4K display",
+                    "Quantum HDR",
+                    "Smart TV met Tizen OS",
+                    "Voice assistent ondersteuning",
+                    "4 HDMI-poorten"
+                ]
+            },
+            {
+                id: 4,
+                name: "PlayStation 5 Console",
+                price: 499.99,
+                image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.7,
+                category: "Gaming",
+                description: "De PlayStation 5 biedt next-generation gaming met ongelooflijke graphics, razendsnelle laadtijden en een revolutionaire DualSense controller. Dompel je onder in een wereld van ongeëvenaarde gaming-ervaringen.",
+                specifications: [
+                    "Custom AMD Zen 2 CPU",
+                    "825GB SSD opslag",
+                    "4K UHD Blu-ray speler",
+                    "DualSense wireless controller",
+                    "Backwards compatibility met PS4 games"
+                ]
+            },
+            {
+                id: 5,
+                name: "Dyson V11 Cordless Stofzuiger",
+                price: 549.99,
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.4,
+                category: "Huis & Keuken",
+                description: "De Dyson V11 is een krachtige draadloze stofzuiger met intelligente reinigingstechnologie. Met automatische aanpassing van het zuigvermogen en een LCD-scherm voor real-time feedback.",
+                specifications: [
+                    "60 minuten gebruikstijd",
+                    "High torque cleaner head",
+                    "LCD scherm voor prestatie-monitoring",
+                    "3 reinigingsmodi",
+                    "Volledig gefilterd systeem"
+                ]
+            },
+            {
+                id: 6,
+                name: "Apple MacBook Air M2",
+                price: 1199.00,
+                image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
+                rating: 4.6,
+                category: "Laptop",
+                description: "De MacBook Air met de krachtige M2-chip combineert ongelooflijke prestaties met een ultradun ontwerp. Met een prachtig Liquid Retina display en tot 18 uur batterijduur.",
+                specifications: [
+                    "13,6-inch Liquid Retina display",
+                    "Apple M2 chip",
+                    "Tot 18 uur batterijduur",
+                    "8-core CPU, 10-core GPU",
+                    "MacOS Ventura"
+                ]
+            },
+            {
+                id: 7,
+                name: "Nintendo Switch OLED",
+                price: 349.99,
+                image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1168&q=80",
+                rating: 4.5,
+                category: "Gaming",
+                description: "De Nintendo Switch OLED model biedt een groter, levendig 7-inch OLED-scherm, verbeterde audio en een breed aanpasbare stand. Perfect voor gaming thuis of onderweg.",
+                specifications: [
+                    "7-inch OLED touchscreen",
+                    "64GB interne opslag",
+                    "Verbeterde speakers",
+                    "LAN-poort in de dock",
+                    "Handheld, tabletop en TV modus"
+                ]
+            },
+            {
+                id: 8,
+                name: "GoPro HERO11 Black",
+                price: 399.99,
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+                rating: 4.4,
+                category: "Camera",
+                description: "De GoPro HERO11 Black biedt ongeëvenaarde beeldkwaliteit met een nieuwe sensor voor meer creatieve mogelijkheden. Met HyperSmooth 5.0 beeldstabilisatie en waterdicht ontwerp.",
+                specifications: [
+                    "27MP sensor",
+                    "5.3K60 video-opname",
+                    "HyperSmooth 5.0 stabilisatie",
+                    "Waterdicht tot 10m",
+                    "Voortdurende cloud back-up mogelijkheid"
+                ]
+            }
+        ];
+
+        // Functie om sterren weer te geven
+        function renderStars(rating) {
+            let starsHtml = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHtml += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    starsHtml += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            return starsHtml;
+        }
+
+        // Functie om productkaarten te genereren
+        function renderProductCards() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.dataset.id = product.id;
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">€${product.price.toFixed(2)}</div>
+                        <div class="rating">
+                            <div class="stars">${renderStars(product.rating)}</div>
+                            <div class="rating-value">${product.rating}/5</div>
+                        </div>
+                        <span class="category">${product.category}</span>
+                        <a href="#" class="view-details">Bekijk details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                
+                container.appendChild(productCard);
+            });
+            
+            // Klik-event toevoegen aan productkaarten
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Voorkom dat de link wordt gevolgd als op de kaart wordt geklikt
+                    if (!e.target.classList.contains('view-details') && e.target.tagName !== 'A') {
+                        const productId = parseInt(this.dataset.id);
+                        showProductDetail(productId);
+                    }
+                });
+            });
+            
+            // Klik-event toevoegen aan "Bekijk details" links
+            document.querySelectorAll('.view-details').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = parseInt(this.closest('.product-card').dataset.id);
+                    showProductDetail(productId);
+                });
+            });
+        }
+
+        // Functie om productdetailpagina te tonen
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const detailContainer = document.getElementById('product-detail-container');
+            detailContainer.innerHTML = `
+                <div class="product-detail">
+                    <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+                    <div class="product-detail-info">
+                        <h1 class="product-detail-name">${product.name}</h1>
+                        <div class="review-summary">
+                            <div class="stars">${renderStars(product.rating)}</div>
+                            <div class="rating-value">${product.rating}/5</div>
+                            <span class="review-count">(124 reviews)</span>
+                        </div>
+                        <div class="product-detail-price">€${product.price.toFixed(2)}</div>
+                        <span class="category">${product.category}</span>
+                        
+                        <p class="product-description">${product.description}</p>
+                        
+                        <div class="specifications">
+                            <h3>Specificaties</h3>
+                            <ul class="spec-list">
+                                ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <button style="background-color: #3498db; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; margin-top: 20px;">
+                            <i class="fas fa-shopping-cart"></i> In winkelwagen
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Wissel van pagina
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('detail-page').classList.remove('hidden');
+            
+            // Scroll naar boven
+            window.scrollTo(0, 0);
+        }
+
+        // Teruggaan naar hoofdpagina
+        document.getElementById('back-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('detail-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        });
+
+        // Initialisatie
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProductCards();
+        });
+
+        // Instructies voor het toevoegen/wijzigen van producten
+        console.log("Om een product toe te voegen of te wijzigen:");
+        console.log("1. Ga naar de products array in de JavaScript code");
+        console.log("2. Voeg een nieuw product object toe met de volgende eigenschappen:");
+        console.log("   - id: uniek nummer");
+        console.log("   - name: productnaam");
+        console.log("   - price: prijs als getal");
+        console.log("   - image: URL van de afbeelding");
+        console.log("   - rating: beoordeling van 1-5");
+        console.log("   - category: categorie naam");
+        console.log("   - description: uitgebreide beschrijving");
+        console.log("   - specifications: array met specificaties");
+        console.log("3. De producten worden automatisch geladen op de pagina!");
+    </script>
+</body>
+</html>
